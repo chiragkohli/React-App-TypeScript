@@ -1,33 +1,32 @@
 import React from 'react';
-import classes from './Person.module.css';
-import Aux from '../../../hoc/Auxillary';
-import withClass from '../../../hoc/withClass';
-import AuthContext from '../../../context/auth-context';
-// import styled from 'styled-components';
+import styled from 'styled-components';
+import Image from '../../Image/Image';
 
-// const StyledDiv = styled.div`
-//     width: 60%;
-//     margin: 15px auto;
-//     border: 1px solid #eee;
-//     box-shadow: 0 2px 3px #ccc;
-//     padding: 16px;
-//     text-align: center;
+const StyledDiv = styled.div`
+    width: 20%;
+    margin: 10px;
+    background-color: rebeccapurple;
+    border-radius: 5px;
+    padding: 16px;
+    text-align: center;
+    display: inline-block;
+`;
+const StyledStrong = styled.strong`
+    display: block;
+    margin-top: 10px;
+`;
 
-//     @media (min-width: 500px) {
-//         width: 450px;
-//     }
-// `;
 const Person = (props: any) => {
-    console.log('Render Person');
-    const context = React.useContext(AuthContext);
+    const path = `https://robohash.org/${props.id}?set=set2&size=180x180`;
     return (
-        <Aux>
-            {context.authenticated ? <p>Authenticated</p> : <p>Please Login</p>}
-            <p onClick={props.click}>I am {props.name} and I am {props.age} Years old!</p>
-            <p>{props.children}</p>
-            <input type='text' value={props.name} onChange={props.changed} />
-        </Aux>
+        <StyledDiv>
+            <Image
+                path={path}
+                name={props.name} />
+            <StyledStrong>{props.name}</StyledStrong>
+            <p>{props.email}</p>
+        </StyledDiv>
     );
 };
 
-export default withClass(Person, classes.Person);
+export default Person;
