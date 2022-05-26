@@ -3,13 +3,21 @@ import styled from 'styled-components';
 import Image from '../../Image/Image';
 
 const StyledDiv = styled.div`
-    width: 20%;
+    width: 80%;
     margin: 10px;
     background-color: rebeccapurple;
     border-radius: 5px;
     padding: 16px;
     text-align: center;
     display: inline-block;
+    @media(min-width: 768px) {
+        width: 30%;
+        margin: 20px 40px;
+    }
+    @media(min-width: 1024px) {
+        width: 20%;
+        margin: 20px 28px;
+    }
 `;
 const StyledStrong = styled.strong`
     display: block;

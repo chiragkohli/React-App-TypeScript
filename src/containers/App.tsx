@@ -3,9 +3,13 @@ import classes from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import withClass from '../hoc/withClass';
 import Aux from '../hoc/Auxillary';
-import AuthContext from '../context/auth-context';
+import ColorContext from '../context/color-context';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
+import Text from '../components/Text/Text';
+import Link from '../components/Link/Link';
+import axios from '../axios';
+import Spinner from '../UI/Spinner/Spinner';
 
 class App extends Component {
   viewRef: React.RefObject<HTMLInputElement>;
@@ -16,20 +20,12 @@ class App extends Component {
   }
 
   state = {
-    persons: [
-      { id: '1', name: 'Ram', age: '38', email: 'Ram@test.com' },
-      { id: '2', name: 'Lakshman', age: '24', email: 'Lakshman@test.com' },
-      { id: '3', name: 'Sham', age: '90', email: 'Sham@test.com' },
-      { id: '4', name: 'Gita', age: '29', email: 'Gita@test.com' },
-      { id: '5', name: 'Mita', age: '38', email: 'Mita@test.com' },
-      { id: '6', name: 'Nita', age: '24', email: 'Nita@test.com' },
-      { id: '7', name: 'Fita', age: '90', email: 'Fita@test.com' },
-      { id: '8', name: 'Hita', age: '29', email: 'Hita@test.com' },
-      { id: '9', name: 'Test', age: '90', email: 'Test@test.com' },
-      { id: '10', name: 'Neetu', age: '29', email: 'Neetu@test.com' },
-    ],
+    persons: [],
     isVisible: false,
-    authenticated: false,
+    color: {
+      background: 'linear-gradient(to right, #33ccff 0%, #ff99cc 100%)'
+    },
+    isLoading: true,
     searchValue: '',
     searchPerson: [],
   };
@@ -58,19 +54,25 @@ class App extends Component {
   //   });
   // };
 
-  loginHandler = () => this.setState({ authenticated: true });
+  changeColorHandler = () => {
+    const firstColor = Math.floor(Math.random() * 16777215).toString(16);
+    const secondColor = Math.floor(Math.random() * 16777215).toString(16);
+    const color = {
+      background: `linear-gradient(to right, #${firstColor} 0%, #${secondColor} 100%)`,
+    }
+    this.setState({ color: color });
+  };
 
   buttonHandler = () => {
     if (this.viewRef && this.viewRef.current) {
       this.viewRef.current.scrollIntoView({
         behavior: "smooth"
       });
-
     }
   };
 
   shouldComponentUpdate(nextProps: any, nextState: any) {
-    if(nextProps.searchValue !== this.state.searchValue) {
+    if (nextProps.searchValue !== this.state.searchValue) {
       return true;
     }
     return false;
@@ -85,12 +87,13 @@ class App extends Component {
         return person.name.toLowerCase().includes(searchStr);
       });
     }
-    this.setState({ searchValue: str, searchPerson: updatedPersons});
+    this.setState({ searchValue: str, searchPerson: updatedPersons });
   }
 
-  updatingViewArray() {}
+  updatingViewArray() { }
 
   render() {
+    const spinner = <Spinner />
     let monserData = <Persons persons={this.state.persons} />
     if (this.state.searchPerson.length > 0 && this.state.searchValue) {
       monserData = <Persons persons={this.state.searchPerson} />
@@ -101,13 +104,17 @@ class App extends Component {
 
     return (
       <Aux>
-        <AuthContext.Provider value={{ authenticated: this.state.authenticated, login: this.loginHandler }}>
-          <div ref={this.viewRef}>
-            <Input type="text" placeholder="Search Monster" value={this.state.searchValue} changed={this.inputChangedHandler} />
-            {monserData}
+        <div style={this.state.color}>
+          <ColorContext.Provider value={{ color: this.state.color, changeColor: this.changeColorHandler }}>
+            <Link>Theme Change</Link>
+          </ColorContext.Provider>
+          <Text ref={this.viewRef}>Monsters Rolodex</Text>
+          <Input type="text" placeholder="Search Monster" value={this.state.searchValue} changed={this.inputChangedHandler} />
+          <div style={{'minHeight': '50vh'}}>
+            {this.state.isLoading ? spinner : monserData}
           </div>
           <Button clicked={this.buttonHandler}>Scroll To Top</Button>
-        </AuthContext.Provider>
+        </div>
       </Aux>
     );
   }
@@ -118,8 +125,18 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('Did Mount');
+    axios.get('persons')
+      .then(response => {
+        if (response?.data) {
+          setTimeout(() => {
+            this.setState({ persons: response.data, isLoading: false });
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        this.setState({ isLoading: false });
+      });
   }
 }
-
+App.contextType = ColorContext;
 export default withClass(App, classes.App);
