@@ -5,17 +5,19 @@ const StyledButton = styled.button`
     color: white;
     background-color: #2dbb2d;
     display: block;
-    padding: 20px;
+    padding: 13px;
     margin: 20px auto;
-    border: none;
+    border: 2px solid #2dbb2d;
     border-radius: 8px;
-    font-size: xxx-large;
-    width: 50%;
+    font-size: 28px;
+    width: 80%;
     :hover {
         background-color: white;
         color: black;
         cursor: pointer;
-        border: 4px solid #2dbb2d;
+    }
+    @media(min-width: 1024px) {
+        width: 50%;
     }
 `;
 
