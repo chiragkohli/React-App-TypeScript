@@ -23,7 +23,7 @@ class App extends Component {
     persons: [],
     isVisible: false,
     color: {
-      background: 'linear-gradient(to right, #33ccff 0%, #ff99cc 100%)'
+      background: 'linear-gradient(to top right, #33ccff 0%, #ff99cc 100%)'
     },
     isLoading: true,
     searchValue: '',
@@ -58,7 +58,7 @@ class App extends Component {
     const firstColor = Math.floor(Math.random() * 16777215).toString(16);
     const secondColor = Math.floor(Math.random() * 16777215).toString(16);
     const color = {
-      background: `linear-gradient(to right, #${firstColor} 0%, #${secondColor} 100%)`,
+      background: `linear-gradient(to top right, #${firstColor} 0%, #${secondColor} 100%)`,
     }
     this.setState({ color: color });
   };
@@ -90,8 +90,6 @@ class App extends Component {
     this.setState({ searchValue: str, searchPerson: updatedPersons });
   }
 
-  updatingViewArray() { }
-
   render() {
     const spinner = <Spinner />
     let monserData = <Persons persons={this.state.persons} />
@@ -110,7 +108,7 @@ class App extends Component {
           </ColorContext.Provider>
           <Text ref={this.viewRef}>Monsters Rolodex</Text>
           <Input type="text" placeholder="Search Monster" value={this.state.searchValue} changed={this.inputChangedHandler} />
-          <div style={{'minHeight': '50vh'}}>
+          <div style={{ 'minHeight': '50vh' }}>
             {this.state.isLoading ? spinner : monserData}
           </div>
           <Button clicked={this.buttonHandler}>Scroll To Top</Button>

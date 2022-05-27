@@ -6,7 +6,7 @@ export interface IContext {
 };
 const colorContext = React.createContext({
     color: {
-        background: 'linear-gradient(to right, #33ccff 0%, #ff99cc 100%)'
+        background: 'linear-gradient(to top right, #33ccff 0%, #ff99cc 100%)'
     },
     changeColor: () => { },
 });
