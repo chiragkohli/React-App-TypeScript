@@ -1,0 +1,26 @@
+.NavSection ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.NavSection li{
+    display: inline-block;
+    margin: 20px;
+}
+
+.NavSection a {
+    text-decoration: none;
+    color: black;
+    font-size: 42px;
+    font-family: cursive;
+    padding: 20px;
+}
+
+.NavSection a:hover,
+.NavSection a:active,
+.NavSection a.Activee {
+    color: white;
+    background: grey;
+}
