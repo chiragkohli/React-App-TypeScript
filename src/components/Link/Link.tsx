@@ -7,7 +7,7 @@ const StyledButton = styled.button`
     background-color: #2dbb2d;
     display: block;
     padding: 20px;
-    margin: 20px auto;
+    margin: 123px auto;
     border: 4px solid #2dbb2d;;
     border-radius: 8px;
     font-size: 22px;
@@ -20,6 +20,10 @@ const StyledButton = styled.button`
     @media(min-width: 768px) {
         font-size: 2rem;
         width: 50%;
+        margin: 166px auto;
+    }
+    @media(min-width: 1024px) {
+        margin: 247px auto;
     }
 `;
 

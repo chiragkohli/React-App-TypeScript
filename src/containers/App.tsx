@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import classes from './App.module.css';
 import withClass from '../hoc/withClass';
 import ColorContext from '../context/color-context';
@@ -27,16 +27,14 @@ class App extends Component {
   render() {
     return (
       <div style={this.state.color}>
-        <BrowserRouter>
-          <ColorContext.Provider value={{ color: this.state.color, changeColor: this.changeColorHandler }}>
-            <Nav />
-            <Routes>
-              <Route path='/' element={<Monsters />}></Route>
-              <Route path='/theme' element={<Theme />}></Route>
-              <Route path='*' element={< Navigate replace to='/' />} />
-            </Routes>
-          </ColorContext.Provider>
-        </BrowserRouter>
+        <ColorContext.Provider value={{ color: this.state.color, changeColor: this.changeColorHandler }}>
+          <Nav />
+          <Routes>
+            <Route path='/' element={<Monsters />}></Route>
+            <Route path='/theme' element={<Theme />}></Route>
+            <Route path='*' element={< Navigate replace to='/' />} />
+          </Routes>
+        </ColorContext.Provider>
       </div>
     );
   }
